@@ -147,36 +147,37 @@ class _SearchScreenState extends State<SearchScreen>
                       controller: _controller,
                       isScrollable: true,
                       tabs: List.generate(
-                        productProvider.categorizedProducts.entries
-                            .where((element) => searchController.text.isNotEmpty
-                                ? element.value
-                                    .where((element1) =>
-                                        element1["name"]
-                                            ?.toLowerCase()
-                                            .contains(searchController.text
-                                                .toLowerCase()) ??
-                                        true)
-                                    .isNotEmpty
-                                : element.value.isNotEmpty)
-                            .toList()
-                            .length,
+                        _controller.length,
                         (index) => Tab(
                           child: TextWidget(
                             productProvider.categorizedProducts.entries
-                                .where((element) => searchController
-                                        .text.isNotEmpty
-                                    ? element.value
-                                        .where((element1) =>
-                                            element1["name"]
-                                                ?.toLowerCase()
-                                                .contains(searchController.text
-                                                    .toLowerCase()) ??
-                                            true)
-                                        .isNotEmpty
-                                    : element.value.isNotEmpty)
-                                .toList()[index]
-                                .key
-                                .toUpperCase(),
+                                        .where((element) => searchController
+                                                .text.isNotEmpty
+                                            ? element.value
+                                                .where((element1) =>
+                                                    element1["name"]
+                                                        ?.toLowerCase()
+                                                        .contains(searchController
+                                                            .text
+                                                            .toLowerCase()) ??
+                                                    true)
+                                                .isNotEmpty
+                                            : element.value.isNotEmpty)
+                                        .toList()
+                                        .length >
+                                    index
+                                ? productProvider.categorizedProducts.entries
+                                    .where((element) =>
+                                        searchController.text.isNotEmpty
+                                            ? element.value
+                                                .where((element1) =>
+                                                    element1["name"]?.toLowerCase().contains(searchController.text.toLowerCase()) ?? true)
+                                                .isNotEmpty
+                                            : element.value.isNotEmpty)
+                                    .toList()[index]
+                                    .key
+                                    .toUpperCase()
+                                : "",
                             weight: getTabBarTextFontWeight(0),
                             color: getTabBarTextColor(0),
                           ),
@@ -198,21 +199,33 @@ class _SearchScreenState extends State<SearchScreen>
                         child: RotatedBox(
                           quarterTurns: -1,
                           child: TextWidget(
-                            productProvider.categorizedProducts.entries
-                                .where((element) => searchController
-                                        .text.isNotEmpty
-                                    ? element.value
-                                        .where((element1) =>
-                                            element1["name"]
-                                                ?.toLowerCase()
-                                                .contains(searchController.text
-                                                    .toLowerCase()) ??
-                                            true)
-                                        .isNotEmpty
-                                    : element.value.isNotEmpty)
-                                .toList()[_controller.index]
-                                .key
-                                .toUpperCase(),
+                            _controller.index >=
+                                    productProvider.categorizedProducts.entries
+                                        .where((element) => searchController
+                                                .text.isNotEmpty
+                                            ? element.value
+                                                .where((element1) =>
+                                                    element1["name"]
+                                                        ?.toLowerCase()
+                                                        .contains(searchController
+                                                            .text
+                                                            .toLowerCase()) ??
+                                                    true)
+                                                .isNotEmpty
+                                            : element.value.isNotEmpty)
+                                        .toList()
+                                        .length
+                                ? "Search Results"
+                                : productProvider.categorizedProducts.entries
+                                    .where((element) => searchController.text.isNotEmpty
+                                        ? element.value
+                                            .where((element1) =>
+                                                element1["name"]?.toLowerCase().contains(searchController.text.toLowerCase()) ?? true)
+                                            .isNotEmpty
+                                        : element.value.isNotEmpty)
+                                    .toList()[_controller.index]
+                                    .key
+                                    .toUpperCase(),
                             weight: FontWeight.bold,
                           ),
                         ),
